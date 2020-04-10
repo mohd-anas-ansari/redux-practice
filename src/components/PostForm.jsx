@@ -12,12 +12,34 @@ export class PostForm extends Component {
 		this.setState({ [event.target.name]: event.target.value });
 	};
 
+	handleSubmit = (event) => {
+		event.preventDefault();
+		console.log(event, "inside-submit-event");
+
+		const post = {
+			title: this.state.title,
+			body: this.state.body,
+		};
+
+		fetch("https://jsonplaceholder.typicode.com/posts", {
+			method: "POST",
+			headers: {
+				"content-type": "application/json",
+			},
+			body: JSON.stringify(post),
+		})
+			.then((res) => res.json())
+			.then((data) => console.log(data, "data in sumbit-post"));
+  };
+  
+  
+
 	render() {
 		return (
 			<div>
 				<h1>Add post</h1>
 
-				<form>
+				<form onSubmit={this.handleSubmit}>
 					<div className="form-input">
 						<label>Title: </label>
 						<input type="text" name="title" onChange={this.handleChange} />
